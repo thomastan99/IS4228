@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Stock Search</title>
+	<style>
+		body {
+			background-color: #f6f6f6;
+			font-family: Arial, sans-serif;
+			font-size: 14px;
+			line-height: 1.4;
+			margin: 0;
+			padding: 0;
+		}
+		h1 {
+			color: #0072c6;
+			font-size: 36px;
+			margin: 30px 0 10px;
+			text-align: center;
+		}
+		form {
+			display: flex;
+			justify-content: center;
+			margin-bottom: 40px;
+		}
+		label {
+			display: inline-block;
+			margin-right: 10px;
+			text-align: right;
+			width: 120px;
+		}
+		input[type="text"] {
+			border: 1px solid #ddd;
+			font-size: 16px;
+			padding: 10px;
+			width: 200px;
+		}
+		button[type="submit"] {
+			background-color: #0072c6;
+			border: none;
+			border-radius: 4px;
+			color: #fff;
+			cursor: pointer;
+			font-size: 16px;
+			padding: 10px 20px;
+			margin-left: 10px;
+		}
+		table {
+			background-color: #fff;
+			border-collapse: collapse;
+			box-shadow: 0px 0px 10px #ddd;
+			margin: 0 auto;
+			width: 100%;
+			max-width: 800px;
+		}
+		th, td {
+			border: 1px solid #ddd;
+			padding: 10px;
+			text-align: center;
+		}
+		th {
+			background-color: #0072c6;
+			color: #fff;
+			font-weight: bold;
+			position: sticky;
+			top: 0;
+		}
+		tr:nth-child(even) {
+			background-color: #f2f2f2;
+		}
+	</style>
+</head>
+<body>
+	<h1>Stock Search</h1>
+	<form method="POST" action="/">
+		<label for="stock_symbol">Enter Stock Symbol:</label>
+		<input type="text" id="stock_symbol" name="stock_symbol">
+		<button type="submit">Search</button>
+	</form>
+	
+	{% if results %}
+		<table>
+			<thead>
+				<tr>
+					<th>Time Searched</th>
+					<th>Stock Symbol</th>
+					<th>Beta</th>
+					<th>Reddit Sentiment Score</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for result in results %}
+					<tr>
+						<td>{{ result.time }}</td>
+						<td>{{ result.stock_symbol }}</td>
+						<td>{{ result.beta }}</td>
+						<td>{{ result.sentiment_score }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+</body>
+</html>
