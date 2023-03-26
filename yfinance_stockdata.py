@@ -49,8 +49,6 @@ def get_beta(ticker, start_date="2015-01-01", end_date="2022-03-21"):
 
     # Return the slope coefficient of the regression model as the beta value
     beta = model.coef_[0][0]
-    print(f"The beta of symbol {ticker} is {beta}" )
+    print("here")
+    # print(f"The beta of symbol {ticker} is {beta}" )
     return beta
-
-while True:
-    get_beta(input())
