@@ -75,7 +75,7 @@
 	<form method="POST" action="/">
 		<label for="stock_symbol">Enter Stock Symbol:</label>
 		<input type="text" id="stock_symbol" name="stock_symbol">
-		<button type="submit">Search</button>
+		<button type="submit" name="search">Search</button>
 	</form>
 	
 	{% if results %}
@@ -83,6 +83,7 @@
 			<thead>
 				<tr>
 					<th>Time Searched</th>
+					<th>Price</th>
 					<th>Stock Symbol</th>
 					<th>Beta</th>
 					<th>Reddit Sentiment Score</th>
@@ -92,6 +93,7 @@
 				{% for result in results %}
 					<tr>
 						<td>{{ result.time }}</td>
+						<td>{{result.price}}</td>
 						<td>{{ result.stock_symbol }}</td>
 						<td>{{ result.beta }}</td>
 						<td>{{ result.sentiment_score }}</td>
@@ -100,5 +102,46 @@
 			</tbody>
 		</table>
 	{% endif %}
+
+<br>
+<br>
+<h1>Portfolio Builder</h1>
+<form method="POST" action="/">
+	<label for="stock_symbol">Enter Stock Symbol:</label>
+	<input type="text" id="stock_symbol" name="stock_symbol">
+	<label for="stock_symbol">Enter Purchase Price:</label>
+	<input type="text" id="purchase_price" name="purchase_price">
+	<label for="stock_symbol">Enter Quantity :</label>
+	<input type="text" id="Quantity" name="Quantity">
+	<button type="submit" name = "Build">Add to Portfolio</button>
+</form>
+{% if port_results %}
+<table>
+	<thead>
+		<tr>
+			
+			<th>Stock Symbol</th>
+			<th>Price</th>
+			<th>Quantity</th>
+			<th>Value</th>
+			<th>Weight in Portfolio</th>
+			<th>Expected Returns</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for result in port_results %}
+			<tr>
+				<td>{{ result.Symbol }}</td>
+				<td>{{result.Price}}</td>
+				<td>{{ result.Quantity }}</td>
+				<td>{{result.Value}}</td>
+				<td>{{result.Weight}}</td>
+				<td>{{result.EX}}</td>
+			</tr>
+
+		{% endfor %}
+	</tbody>
+</table>
+{% endif %}
 </body>
 </html>

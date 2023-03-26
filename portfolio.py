@@ -9,11 +9,11 @@ portfolio = ['AAPL', 'TSLA']
 noOfShares = [200, 100]
 '''
 
-def get_value(ticker, start_date=datetime.date.today(), end_date=datetime.date.today()):
+def get_value(ticker, start_date='2023-01-01', end_date=datetime.date.today()):
   #Get the current value of a stock
   data = yf.download(ticker, start=start_date, end=end_date)
   value = data['Adj Close'][0]
-  return value
+  return round(value,2)
 
 def get_totalValue(stock_list, noOfShare):
   #Get total value of the portfolio

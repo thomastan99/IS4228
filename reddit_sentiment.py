@@ -20,7 +20,7 @@ def reddit_sentiment(stock_symbol):
     for post in search_results:
         sentiment_arr.append(get_sentiment_score(post.title))
     average_score = mean(sentiment_arr)
-    return average_score
+    return round(average_score,2)
 
 def get_sentiment_score(text):
     sia = SentimentIntensityAnalyzer()
