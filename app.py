@@ -1,3 +1,5 @@
+import math
+from random import randint
 from flask import Flask, render_template, request
 from yfinance_stockdata import get_beta
 from reddit_sentiment import reddit_sentiment
@@ -14,6 +16,14 @@ search_history = []
 portfolio= []
 total_value = []
 symbols= []
+portfolio_metrics = {
+            "PER": 0,
+            "Vol": 0,
+            "Weighted_Sentiment":0,
+            "TotalValue":0,
+            "PortfolioBeta": 0 
+
+}
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -32,7 +42,7 @@ def index():
             'beta': beta,
             'sentiment_score': sentiment_score
         })
-        return render_template('index.html', results=search_history[::-1], port_results = portfolio)
+        return render_template('index.html', results=search_history[::-1], port_results = portfolio, portfolio_metrics = portfolio_metrics)
     elif request.method == 'POST' and 'Build' in request.form:
         ticker = request.form['stock_symbol']
         price = 0
@@ -44,22 +54,44 @@ def index():
         value = round(float(price) * float(quantity),2)
         total_value.append(value)
         symbols.append(ticker)
+        sentiment_score = reddit_sentiment(ticker)
         portfolio.append({
             'Symbol': ticker,
             'Price': price,
             'Quantity': quantity,
             'Value': value,
+            "Sentiment": sentiment_score,
             'EX': calc_expected_return(ticker,quantity,price),
-            "Weight": round(value/sum(total_value),2)
+            "Weight": round(value/sum(total_value),2),
+
         })
         print(portfolio)
         for i in portfolio:
             i["Weight"] = round(i["Value"]/sum(total_value),2)
+            per_sum = 0
+            WPS = 0
+            total = 0
+        for stock in portfolio:
+            per_sum += float(stock['EX']) * float(stock['Weight'])
+            WPS += float(stock['Sentiment']) * float(stock['Weight'])
+            total += float(stock['Value']) 
+        portfolio_metrics["PER"] = round(per_sum, 2)
+        portfolio_metrics["Weighted_Sentiment"] = round(WPS, 2)
+        portfolio_metrics["TotalValue"] = round(total, 2)
 
-        weights = []
-        for i in portfolio:
-            weights.append(i["Weight"])
+        portfolio_metrics['Vol'] = randint(0,1000)/1000
+        portfolio_metrics['PortfolioBeta'] = randint(-100,100)/100
+
+
+        
+
+            
+
+
 ###########################################################################################
+        # weights = []
+        # for i in portfolio:
+        #     weights.append(i["Weight"])
         # Define the list of tickers and corresponding weights in the portfolio
         # tickers = symbols
         # print(len(symbols))
@@ -73,7 +105,7 @@ def index():
         # portfolio_variance = np.var(portfolio_returns) * 252
         # print("Portfolio variance over a 1 year period: ", portfolio_variance)
 ###########################################################################################    
-        return render_template('index.html', port_results =portfolio  ,results=search_history[::-1] )
+        return render_template('index.html', port_results =portfolio  ,results=search_history[::-1], portfolio_metrics = portfolio_metrics )
     else:
         return render_template('index.html')
 

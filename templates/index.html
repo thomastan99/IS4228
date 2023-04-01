@@ -143,5 +143,30 @@
 	</tbody>
 </table>
 {% endif %}
+<h1>Portfolio Metrics</h1>
+{% if portfolio_metrics %}
+<table>
+	<thead>
+		<tr>
+			
+			<th>Volatility</th>
+			<th>Expected Return</th>
+			<th>Weighted Portfolio Sentiment</th>
+			<th>Total Portfolio Value</th>
+			<th>Portfolio Beta</th>
+		</tr>
+	</thead>
+	<tbody>
+			<tr>
+				<td>{{portfolio_metrics.Vol}}</td>
+				<td>{{ portfolio_metrics.PER }}</td>
+				<td>{{ portfolio_metrics.Weighted_Sentiment }}</td>
+				<td>{{ portfolio_metrics.TotalValue }}</td>
+				<td>{{portfolio_metrics.PortfolioBeta}}</td>
+			</tr>
+
+	</tbody>
+</table>
+{% endif %}
 </body>
 </html>
