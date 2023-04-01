@@ -18,7 +18,7 @@ def reddit_sentiment(stock_symbol):
     search_results = subreddit.search(f'{stock_symbol} OR {stock_symbol.upper()}')
     sentiment_arr = []
     for post in search_results:
-        sentiment_arr.append(get_sentiment_score(post.title))
+        sentiment_arr.append(get_sentiment_score(post.selftext))
     average_score = mean(sentiment_arr)
     return round(average_score,2)
 
