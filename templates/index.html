@@ -251,9 +251,24 @@
 	<label for="stock_symbol">Enter Stock Symbol:</label>
 	<input type="text" id="stock_symbol" name="stock_symbol">
 </form>
+<div style="margin: 0 auto; width: fit-content; padding-top: 50px; padding-right: 30px; padding-bottom: 50px; padding-left: 80px;">
+	<h4>Distribution of next_day_closing_price data</h4>
+	<img src="{{url_for('static', filename = '1.jpeg')}}" alt="" width="80%">
+	<br>
+	<h4>Model Architecture</h4>
+	<img src="{{url_for('static', filename = '2.jpeg')}}" alt="" width="20%">
+	<h4>Time series cross validation data</h4>
+	<img src="{{url_for('static', filename = 'output.png')}}" alt="" width="85%">
+	<img src="{{url_for('static', filename = 'LSTM.png')}}" alt="" width="80%">
+	<h3>Mean Absolute Error: 1.2245148756565187</h3>
+<h3>Root Mean Squared Error: 1.525222387983045</h3>
+<h3>Normalized RMS: 0.1253264074298602</h3>
+  </div>
+  
 
-<img src="{{url_for('static', filename = 'output.png')}}" alt="" width="100%"  >
-<img src="{{url_for('static', filename = 'LSTM.png')}}" alt="" width="100%">
+
+<!-- <h3>Mean Absolute Percentage Error 19.102688072166583</h3> -->
+
 <br>
 <br>
 </body>
