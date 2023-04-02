@@ -1,6 +1,6 @@
 import math
 from random import randint
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 from yfinance_stockdata import get_beta
 from reddit_sentiment import reddit_sentiment
 import datetime
