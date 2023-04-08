@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Stock Search</title>
+		<style>
+	/* General styles */
+	body {
+	  font-family: Arial, sans-serif;
+	  font-size: 16px;
+	  line-height: 1.4;
+	  margin: 0;
+	  padding: 0;
+	}
+	
+	.light-mode {
+	  background-color: #f7f7f7;
+	  color: #2c3e50;
+	}
+	
+	.dark-mode {
+	  background-color: #2c3e50;
+	  color: #f7f7f7;
+	}
+	
+	h1 {
+	  font-size: 36px;
+	  font-weight: bold;
+	  margin: 40px 0 20px;
+	  text-align: center;
+	}
+	
+	p {
+	  margin-bottom: 20px;
+	}
+	
+	/* Form styles */
+	form {
+	  margin-bottom: 40px;
+	  display: flex;
+	  flex-wrap: wrap;
+	  justify-content: center;
+	}
+	
+	label {
+	  display: block;
+	  font-size: 18px;
+	  font-weight: bold;
+	  margin-right: 10px;
+	  margin-bottom: 10px;
+	  text-align: right;
+	  width: 150px;
+	}
+	
+	input[type="text"],
+	input[type="number"] {
+	  border: 1px solid #ccc;
+	  border-radius: 4px;
+	  font-size: 16px;
+	  margin-bottom: 10px;
+	  padding: 10px;
+	  width: 250px;
+	}
+	
+	button[type="submit"] {
+	  background-color: #0072c6;
+	  border: none;
+	  border-radius: 4px;
+	  color: #fff;
+	  cursor: pointer;
+	  font-size: 18px;
+	  font-weight: bold;
+	  padding: 10px 20px;
+	  margin-left: 10px;
+	}
+	
+	/* Table styles */
+	table {
+	  background-color: #fff;
+	  border-collapse: collapse;
+	  box-shadow: 0px 0px 10px #ddd;
+	  margin: 0 auto;
+	  width: 100%;
+	  max-width: 800px;
+	}
+	table.dark-mode td {
+  background-color: #333;
+  color: white;
+}
+
+	
+	th,
+	td {
+	  border: 1px solid #ddd;
+	  padding: 10px;
+	  text-align: center;
+	}
+	
+	th {
+	  background-color: #0072c6;
+	  color: #fff;
+	  font-weight: bold;
+	  position: sticky;
+	  top: 0;
+	}
+	
+	tr:nth-child(even) {
+	  background-color: #f2f2f2;
+	}
+	
+	/* Button styles */
+	#toggle-mode {
+	  position: fixed;
+	  bottom: 20px;
+	  right: 20px;
+	  font-size: 18px;
+	  font-weight: bold;
+	  padding: 10px 20px;
+	  border: none;
+	  border-radius: 4px;
+	  cursor: pointer;
+	}
+	
+	#toggle-mode:focus {
+	  outline: none;
+	}
+	
+	#toggle-mode:hover {
+	  opacity: 0.8;
+	}
+	</style>
+</head>
+<body>
+	<button id="toggle-mode">Toggle Mode</button>
+
+<script>
+	// Add event listener to toggle mode button
+	const toggleModeButton = document.getElementById("toggle-mode");
+	toggleModeButton.addEventListener("click", toggleMode);
+	
+	// Function to toggle between light and dark mode
+	function toggleMode() {
+		const body = document.querySelector("body");
+		body.classList.toggle("light-mode");
+		body.classList.toggle("dark-mode");
+		table.classList.toggle("light-mode");
+		table.classList.toggle("dark-mode");
+	}
+	
+</script>
+
+	<h1>Stock Search</h1>
+	<form method="POST" action="/">
+		<label for="stock_symbol">Enter Stock Symbol:</label>
+		<input type="text" id="stock_symbol" name="stock_symbol">
+		<button type="submit" name="search">Search</button>
+	</form>
+	
+	{% if results %}
+		<table >
+			<thead>
+				<tr>
+					<th>Time Searched</th>
+					<th>Price</th>
+					<th>Stock Symbol</th>
+					<th>Beta</th>
+					<th>Reddit Sentiment Score</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for result in results %}
+					<tr>
+						<td>{{ result.time }}</td>
+						<td>{{result.price}}</td>
+						<td>{{ result.stock_symbol }}</td>
+						<td>{{ result.beta }}</td>
+						<td>{{ result.sentiment_score }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+
+<br>
+<br>
+<h1>Portfolio Builder</h1>
+<form method="POST" action="/">
+	<label for="stock_symbol">Enter Stock Symbol:</label>
+	<input type="text" id="stock_symbol" name="stock_symbol">
+	<label for="stock_symbol">Enter Purchase Price:</label>
+	<input type="text" id="purchase_price" name="purchase_price">
+	<label for="stock_symbol">Enter Quantity :</label>
+	<input type="text" id="Quantity" name="Quantity">
+	<button type="submit" name = "Build">Add to Portfolio</button>
+</form>
+{% if port_results %}
+<table>
+	<thead>
+		<tr>
+			
+			<th>Stock Symbol</th>
+			<th>Price</th>
+			<th>Quantity</th>
+			<th>Value</th>
+			<th>Weight in Portfolio</th>
+			<th>Expected Returns</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for result in port_results %}
+			<tr>
+				<td>{{ result.Symbol }}</td>
+				<td>{{result.Price}}</td>
+				<td>{{ result.Quantity }}</td>
+				<td>{{result.Value}}</td>
+				<td>{{result.Weight}}</td>
+				<td>{{result.EX}}</td>
+			</tr>
+
+		{% endfor %}
+	</tbody>
+</table>
+{% endif %}
+<h1>Portfolio Metrics</h1>
+{% if portfolio_metrics %}
+<table>
+	<thead>
+		<tr>
+			
+			<th>Volatility</th>
+			<th>Expected Return</th>
+			<th>Weighted Portfolio Sentiment</th>
+			<th>Total Portfolio Value</th>
+			<th>Portfolio Beta</th>
+		</tr>
+	</thead>
+	<tbody>
+			<tr>
+				<td>{{portfolio_metrics.Vol}}</td>
+				<td>{{ portfolio_metrics.PER }}</td>
+				<td>{{ portfolio_metrics.Weighted_Sentiment }}</td>
+				<td>{{ portfolio_metrics.TotalValue }}</td>
+				<td>{{portfolio_metrics.PortfolioBeta}}</td>
+			</tr>
+
+	</tbody>
+</table>
+{% endif %}
+<!-- <h1>LSTM Prediction for : GME</h1>
+<form action="POST">
+	<label for="stock_symbol">Enter Stock Symbol:</label>
+	<input type="text" id="stock_symbol" name="stock_symbol">
+</form>
+<div style="margin: 0 auto; width: fit-content; padding-top: 50px; padding-right: 30px; padding-bottom: 50px; padding-left: 80px;">
+	<h4>Distribution of next_day_closing_price data</h4>
+	<img src="{{url_for('static', filename = '1.jpeg')}}" alt="" width="80%">
+	<br>
+	<h4>Model Architecture</h4>
+	<img src="{{url_for('static', filename = '2.jpeg')}}" alt="" width="20%">
+	<h4>Time series cross validation data</h4>
+	<img src="{{url_for('static', filename = 'output.png')}}" alt="" width="85%">
+	<img src="{{url_for('static', filename = 'LSTM.png')}}" alt="" width="80%">
+	<h3>Mean Absolute Error: 1.2245148756565187</h3>
+<h3>Root Mean Squared Error: 1.525222387983045</h3>
+<h3>Normalized RMS: 0.1253264074298602</h3>
+  </div> -->
+  
+
+
+<!-- <h3>Mean Absolute Percentage Error 19.102688072166583</h3> -->
+
+<br>
+<br>
+</body>
+</html>
